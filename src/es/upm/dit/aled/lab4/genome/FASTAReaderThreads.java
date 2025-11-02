@@ -115,9 +115,11 @@ public class FASTAReaderThreads {
 	 *         pattern in the data.
 	 */
 	public List<Integer> search(byte[] pattern) {
-		// TODO
-		return null;
-	}
+		int cores = Runtime.getRuntime().availableProcessors();
+        ExecutorService executor = Executors.newFixedThreadPool(cores);
+        return null;
+    }
+	
 
 	public static void main(String[] args) {
 		long t1 = System.nanoTime();
