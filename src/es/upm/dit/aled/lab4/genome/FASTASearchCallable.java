@@ -1,10 +1,11 @@
 package es.upm.dit.aled.lab4.genome;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 
-import es.upm.dit.aled.lab3.FASTAException;
+import es.upm.dit.aled.lab4.genome.FASTAException;
 
 /**
  * Callable task that performs a linear search over a specific section of a

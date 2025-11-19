@@ -115,9 +115,31 @@ public class FASTAReaderThreads {
 	 *         pattern in the data.
 	 */
 	public List<Integer> search(byte[] pattern) {
-		int cores = Runtime.getRuntime().availableProcessors();
-        ExecutorService executor = Executors.newFixedThreadPool(cores);
-        return null;
+		List<Integer> resultado = new ArrayList<Integer>(0);
+		try{
+			int cores = Runtime.getRuntime().availableProcessors();
+			 ExecutorService executor = Executors.newFixedThreadPool(cores);
+		     int segmentos = content.length/cores;
+		     Future<List<Integer>>[] futures = new Future[cores];
+		     int lo = 0;
+		     int hi = 0+segmentos;
+		     for (int i = 0; i < cores; i++) {
+					Callable<List<Integer>> task = new FASTASearchCallable(this, lo, hi, pattern);
+					Future<List<Integer>> future = executor.submit(task);
+					futures[i] = future;
+					lo += segmentos;
+					hi += segmentos;
+				}
+				// Collects the results
+				for (int i = 0; i < futures.length; i++) {
+					resultado.addAll(futures[i].get());
+				}
+				executor.shutdown();
+		}catch (Exception e) {
+			System.out.println("Task was interrupted: " + e.getMessage());
+		}
+        
+        return resultado;
     }
 	
 
